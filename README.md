@@ -77,6 +77,10 @@ macro_wrap!(match x {
 })
 ```
 
+Note that because `macro_wrap!` calls `macro_for!` directly in order to make
+this work, you don't need to `use dry::macro_for` if you're not using it
+anywhere else.
+
 ### Features
 
 The `nightly` feature (disabled by default) enables functionality that uses the
@@ -140,6 +144,10 @@ and `macro_rules!` do, which make it clear when macros are being used versus
 standard language features within the loop body. None of them support
 replicating struct fields, enum cases, or match arms as far as I'm aware.
 
+#### For Each Loops Over Macros
+
+- TODO: https://github.com/Wandalen/wTools/tree/master/module/rust/for_each
+
 #### N Repetitions
 
 - [`repeated`](https://crates.io/crates/repeated): Not quite the same thing,
@@ -170,6 +178,10 @@ Please [open a pull request](https://github.com/coldriverstudio/dry-rs/pulls/new
       enum cases, match arms): `macro_wrap`.
 - [ ] Fix bug where adding stuff after the last `}` is ignored. Should be an
       error instead.
+- [ ] Ignore trailing comma (don't generate an additional empty substitution).
+      Empty substitution can be generated with `()`.
+- [ ] Make it an error to have two consecutive commas. Instead, require a `()`
+      in between for an empty substitution.
 - [ ] Better documentation
 - [ ] Testing
 - [ ] Support multiple substitution variables using a tuple-destructuring-like
