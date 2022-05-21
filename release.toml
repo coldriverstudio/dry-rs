@@ -1,7 +1,7 @@
 allow-branch = ["main"]
-pre-release-commit-message = "chore: (cargo-release) version {{version}}"
 post-release-commit-message = "chore: (cargo-release) start next development iteration {{next_version}}"
+pre-release-commit-message = "chore: (cargo-release) version {{version}}"
 pre-release-replacements = [
-  {file="README.md", search="dry = \"[^\"]*\"", replace="{{crate_name}} = \"{{version}}\""},
-  {file="README.md", search="dry = { version = \"[^\"]*\"", replace="{{crate_name}} = { version = \"{{version}}\""},
+  {file = "README.md", search = "dry = \"[^\"]*\"", replace = "{{crate_name}} = \"{{version}}\""},
+  {file = "README.md", search = "dry = \\{ version = \"[^\"]*\"", replace = "{{crate_name}} = { version = \"{{version}}\""},
 ]
