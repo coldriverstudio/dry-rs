@@ -75,9 +75,10 @@ available even on nightly yet).
 
 ## Dependencies
 
-The only dependency is [`proc-macro-error`](), for those sweet, sweet, friendly
-error messages across Rust versions. No [`quote`](), [`syn`](), or
-[`proc-macro2`]() here!
+The only dependency is [`proc-macro-error`], for those sweet, sweet, friendly
+error messages across Rust versions. In turn, it depends on [`quote`] and
+[`proc-macro2`]. However, we don't depend on [`syn`] at all so `dry` should be
+really light on compile times.
 
 [`proc-macro-error`]: https://docs.rs/proc-macro-error
 [`quote`]: https://docs.rs/quote
