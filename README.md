@@ -1,5 +1,12 @@
 # `dry` — Don't Repeat Yourself
 
+[![Latest version](https://img.shields.io/crates/v/dry.svg)](https://crates.io/crates/dry)
+[![Documentation](https://docs.rs/dry/badge.svg)](https://docs.rs/dry)
+[![License: MIT/Apache 2.0](https://img.shields.io/badge/license-MIT%2FApache-blue.svg)](COPYRIGHT)
+
+<!-- Shows "MIT OR Apache-2.0" for some reason even though it doesn't for `lazy-static` or `clippy`, for example. >
+<!-- [![License: MIT/Apache-2.0](https://img.shields.io/crates/l/dry.svg)](COPYRIGHT) -->
+
 Rust macros for idiomatic deduplication of code. Use whenever `macro_rules!`
 are still too powerful and clunky.
 
@@ -102,6 +109,10 @@ really light on compile times.
 You should try to use an abstraction like looping, traits, or generics if at
 all possible. But when it's not, `dry` makes it as painless and pleasant as
 possible to avoid repeating yourself.
+
+## Prior Art
+
+TODO
 
 ## Roadmap
 
