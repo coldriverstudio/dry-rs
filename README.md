@@ -71,7 +71,7 @@ unstable [`proc_macro_span`] rustc feature. It enables better syntax checking
 more source code hints on errors (though quick-fixes for macros aren't
 available even on nightly yet).
 
-[proc_macro_span]: https://github.com/rust-lang/rust/issues/54725
+[`proc_macro_span`]: https://github.com/rust-lang/rust/issues/54725
 
 ## Dependencies
 
