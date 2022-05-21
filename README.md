@@ -168,7 +168,7 @@ Please [open a pull request](https://github.com/coldriverstudio/dry-rs/pulls/new
       for the equivalent runtime constructions.
 - [x] Wrapper for uses where macro invocations are illegal (e.g. struct fields,
       enum cases, match arms): `macro_wrap`.
-- [x] Fix bug where adding stuff after the last `}` is ignored. Should be an
+- [ ] Fix bug where adding stuff after the last `}` is ignored. Should be an
       error instead.
 - [ ] Better documentation
 - [ ] Testing
