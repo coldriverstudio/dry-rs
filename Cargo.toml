@@ -3,10 +3,12 @@ name = "dry"
 version = "0.1.0"
 authors = ["Andres Riofrio <riofrios@gmail.com>"]
 edition = "2021"
-license = "MIT OR Apache-2.0"
 description = "Rust macros for idiomatic deduplication of code. Use whenever `macro_rules!` is still too powerful and clunky."
-repository = "https://github.com/coldriverstudio/dry"
 readme = "README.md"
+repository = "https://github.com/coldriverstudio/dry"
+license = "MIT OR Apache-2.0"
+keywords = ["macro", "for", "for_each", "repeat"]
+categories = ["development-tools"]
 
 [lib]
 proc-macro = true
