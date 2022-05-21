@@ -167,7 +167,16 @@ Unless you explicitly state otherwise, any contribution intentionally submitted 
 
 ## Contributing
 
-Please [open a pull request](https://github.com/coldriverstudio/dry-rs/pulls/new) if you'd like to see anything fixed or added, or [create an issue](https://github.com/coldriverstudio/dry-rs/issues/new) if you're not sure how to get started.
+Please [open a pull
+request](https://github.com/coldriverstudio/dry-rs/pulls/new) if you'd like to
+see anything fixed or added, or [create an
+issue](https://github.com/coldriverstudio/dry-rs/issues/new) if you see a
+problem or missing feature and you're not sure how or don't have the time to
+fix it.
+
+A great place to start is the roadmap below. The first few ones are small and
+well-defined enough that they'd make a great first pull request. We'd love to
+have you on board!
 
 ## Roadmap to 1.0
 
