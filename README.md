@@ -1,7 +1,7 @@
 # `dry` — Don't Repeat Yourself
 
-Rust macros for idiomatic deduplication of code. Use whenever `macro_rules!` is
-still too powerful and clunky.
+Rust macros for idiomatic deduplication of code. Use whenever `macro_rules!`
+are still too powerful and clunky.
 
 ## `macro_for!`
 
