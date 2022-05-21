@@ -12,7 +12,7 @@ are too powerful and clunky.
 
 ```toml
 [dependencies]
-dry = "0.1.0"
+dry = "0.1.1"
 ```
 
 ## Usage
@@ -89,7 +89,7 @@ If you're running Rust nightly, you can enable it:
 
 ```toml
 [dependencies]
-dry = { version = "0.1.0", features = ["nightly"] }
+dry = { version = "0.1.1", features = ["nightly"] }
 ```
 
 [`proc_macro_span`]: https://github.com/rust-lang/rust/issues/54725
