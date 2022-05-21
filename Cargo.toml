@@ -9,6 +9,7 @@ repository = "https://github.com/coldriverstudio/dry-rs"
 license = "MIT OR Apache-2.0"
 keywords = ["macro", "for", "for_each", "repeat"]
 categories = ["development-tools"]
+exclude = ["ideas/*"]
 
 [lib]
 proc-macro = true
