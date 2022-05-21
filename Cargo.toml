@@ -1,15 +1,15 @@
 [package]
-name = "dry"
-version = "0.1.0"
 authors = ["Andres Riofrio <riofrios@gmail.com>"]
+categories = ["development-tools"]
+description = "Rust macros for idiomatic deduplication of code. Use whenever `macro_rules!` are too powerful and clunky."
 edition = "2021"
-description = "Rust macros for idiomatic deduplication of code. Use whenever `macro_rules!` is still too powerful and clunky."
+exclude = ["ideas/*"]
+keywords = ["macro", "for", "for_each", "repeat", "substitute"]
+license = "MIT OR Apache-2.0"
+name = "dry"
 readme = "README.md"
 repository = "https://github.com/coldriverstudio/dry-rs"
-license = "MIT OR Apache-2.0"
-keywords = ["macro", "for", "for_each", "repeat", "substitute"]
-categories = ["development-tools"]
-exclude = ["ideas/*"]
+version = "0.1.0"
 
 [lib]
 proc-macro = true
@@ -18,4 +18,4 @@ proc-macro = true
 nightly = []
 
 [dependencies]
-proc-macro-error = { version = "1.0", default-features = false }
+proc-macro-error = {version = "1.0", default-features = false}
