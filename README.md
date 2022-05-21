@@ -8,7 +8,7 @@
 <!-- [![License: MIT/Apache-2.0](https://img.shields.io/crates/l/dry.svg)](COPYRIGHT) -->
 
 Rust macros for idiomatic deduplication of code. Use whenever `macro_rules!`
-are still too powerful and clunky.
+are too powerful and clunky.
 
 ```toml
 [dependencies]
@@ -148,8 +148,8 @@ replicating struct fields, enum cases, or match arms as far as I'm aware.
   an enum in an external crate without generic traits is what spurred initial
   development of `dry`!
 - [`seq_macro`](https://crates.io/crates/seq_macro): Inspired the syntax used
-  in `macro_for!`. Great if you want to iterate over a range of numeric or
-  character values instead of a list of tokens.
+  in `macro_for!`. Great if you want to idiomatically iterate over a range of
+  numeric or character values instead of a list of tokens at compile time.
 
 ## License
 
