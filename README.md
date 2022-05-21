@@ -114,9 +114,9 @@ really light on compile times.
 
 ### Caution
 
-You should try to use an abstraction like looping, traits, or generics if at
-all possible. But when it's not, `dry` makes it as painless and pleasant as
-possible to avoid repeating yourself.
+You should try to use an abstraction like looping, traits, or generics whenever
+possible and practical. But when it's not, `dry` makes it as painless and
+pleasant as possible to avoid repeating yourself.
 
 ### Prior Art
 
