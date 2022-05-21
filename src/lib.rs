@@ -5,11 +5,120 @@ use proc_macro_error::{abort, abort_call_site, proc_macro_error};
 #[cfg(feature = "proc_macro_span")]
 use std::iter::once;
 
+// TODO: This doesn't really work because the item is parsed before the macro
+// runs, which makes the $identifiers unusable.
+
+// #[proc_macro_attribute]
+// #[proc_macro_error]
+// pub fn item_for_each(attr: TokenStream, input: TokenStream) -> TokenStream {
+//   let (substitution_identifier, substitution_values) =
+//     parse_attr(&mut attr.into_iter());
+//   // TODO: Handle there being more tokens in attr after that.
+//
+//   let mut output = Vec::<TokenTree>::new();
+//
+//   for substitution_value in substitution_values {
+//     output.extend(substitute(
+//       input.clone(),
+//       &substitution_identifier,
+//       &substitution_value,
+//     ));
+//   }
+//
+//   return TokenStream::from_iter(output);
+// }
+
 #[proc_macro]
 #[proc_macro_error]
-pub fn for_each(token_stream: TokenStream) -> TokenStream {
-  let mut tokens = token_stream.clone().into_iter();
+pub fn macro_wrap(input: TokenStream) -> TokenStream {
+  let mut output = Vec::<TokenTree>::new();
 
+  // println!("{:?}", input.clone().into_iter().collect::<Vec<_>>());
+
+  let mut prior_to_previous_token = None::<TokenTree>;
+  let mut previous_token = None::<TokenTree>;
+  for token in input.into_iter() {
+    match token {
+      TokenTree::Group(ref group) => {
+        // println!("{:?} {:?}", prior_to_previous_token, previous_token);
+        match (prior_to_previous_token, previous_token.clone()) {
+          (Some(TokenTree::Ident(ident)), Some(TokenTree::Punct(punct)))
+            if ident.to_string() == "macro_for" && punct.as_char() == '!' =>
+          {
+            output.pop();
+            output.pop();
+            output.extend(macro_for(group.stream()).into_iter());
+          }
+          _ => {
+            let mut output_group =
+              Group::new(group.delimiter(), macro_wrap(group.stream()));
+            output_group.set_span(group.span());
+            output.push(output_group.into());
+          }
+        }
+      }
+      _ => output.push(token.clone()),
+    }
+    prior_to_previous_token = previous_token;
+    previous_token = Some(token);
+  }
+  return TokenStream::from_iter(output);
+}
+
+#[proc_macro]
+#[proc_macro_error]
+pub fn macro_for(input: TokenStream) -> TokenStream {
+  let mut tokens = input.clone().into_iter();
+
+  let (substitution_identifier, substitution_values) = parse_attr(&mut tokens);
+
+  let mut output = Vec::<TokenTree>::new();
+  match tokens.next() {
+    Some(TokenTree::Group(group)) => {
+      if group.delimiter() != Delimiter::Brace {
+        abort!(
+          group.span_open(), "expected '{' after subsituted values";
+          help = "try placing this code inside a block: `{{ {} }}`", group.to_string()
+        )
+      }
+
+      for substitution_value in substitution_values {
+        output.extend(substitute(
+          group.stream(),
+          &substitution_identifier,
+          &substitution_value,
+        ));
+      }
+    }
+    Some(token) => {
+      #[cfg(feature = "proc_macro_span")]
+      if let Some(source) = once(token.clone())
+        .chain(tokens)
+        .map(|t| t.span().source_text())
+        .fold(Some("".to_string()), |accum, source| {
+          accum.map(|a| source.as_ref().map(|s| a + s)).flatten()
+        })
+      {
+        abort!(
+          token.span(), "expected '{' after subsituted values";
+          help = "try placing this code inside a block: `{{ {} }}`", source
+        )
+      }
+      abort!(token.span(), "expected '{' after subsituted values");
+    }
+    None => {
+      abort_call_site!("expected '{' after subsituted values")
+    }
+  }
+
+  // TODO: Handle there being more tokens after the closing brace.
+
+  return TokenStream::from_iter(output);
+}
+
+fn parse_attr<T: Iterator<Item = TokenTree>>(
+  tokens: &mut T,
+) -> (Ident, Vec<Vec<TokenTree>>) {
   let substitution_identifier: Ident;
   match tokens.next() {
     Some(TokenTree::Punct(dollar)) if dollar.as_char() == '$' => {
@@ -114,51 +223,7 @@ pub fn for_each(token_stream: TokenStream) -> TokenStream {
     }
   }
 
-  let mut output = Vec::<TokenTree>::new();
-  match tokens.next() {
-    Some(TokenTree::Group(group)) => {
-      if group.delimiter() != Delimiter::Brace {
-        abort!(
-          group.span_open(), "expected '{' after subsituted values";
-          help = "try placing this code inside a block: `{{ {} }}`", group.to_string()
-        )
-      }
-
-      for substitution_value in substitution_values {
-        output.extend(substitute(
-          group.stream(),
-          &substitution_identifier,
-          &substitution_value,
-        ));
-      }
-    }
-    Some(token) => {
-      #[cfg(feature = "proc_macro_span")]
-      if let Some(source) = once(token.clone())
-        .chain(tokens)
-        .map(|t| t.span().source_text())
-        .fold(Some("".to_string()), |accum, source| {
-          accum.map(|a| source.as_ref().map(|s| a + s)).flatten()
-        })
-      {
-        abort!(
-          token.span(), "expected '{' after subsituted values";
-          help = "try placing this code inside a block: `{{ {} }}`", source
-        )
-      }
-      abort!(token.span(), "expected '{' after subsituted values");
-    }
-    None => {
-      abort_call_site!(
-        "unexpected end of macro, expected '{' after subsituted values"
-      )
-    }
-  }
-
-  for token in tokens.clone().into_iter() {
-    println!("{:?}", token);
-  }
-  return TokenStream::from_iter(output);
+  return (substitution_identifier, substitution_values);
 }
 
 fn substitute(
