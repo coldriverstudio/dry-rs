@@ -3,6 +3,11 @@
 Rust macros for idiomatic deduplication of code. Use whenever `macro_rules!`
 are still too powerful and clunky.
 
+```toml
+[dependencies]
+dry = "0"
+```
+
 ## `macro_for!`
 
 You know the trusty `for` loop:
@@ -70,6 +75,13 @@ unstable [`proc_macro_span`] rustc feature. It enables better syntax checking
 (disallows spaces between the "$" and the substitution variable names) and emits
 more source code hints on errors (though quick-fixes for macros aren't
 available even on nightly yet).
+
+If you're running Rust nightly, you can enable it:
+
+```toml
+[dependencies]
+dry = { version = "0", features = ["nightly"] }
+```
 
 [`proc_macro_span`]: https://github.com/rust-lang/rust/issues/54725
 
