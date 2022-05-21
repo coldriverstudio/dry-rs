@@ -15,7 +15,9 @@ are still too powerful and clunky.
 dry = "0.1.0"
 ```
 
-## `macro_for!`
+## Usage
+
+### `macro_for!`
 
 You know the trusty `for` loop:
 
@@ -58,7 +60,7 @@ my_struct!(E);
 
 See the [examples](examples) for more details.
 
-## `macro_wrap!`
+### `macro_wrap!`
 
 Allows you to use the other macros in this crate in places where macro
 invocations are illegal (e.g. struct fields, enum cases, match arms).
@@ -75,7 +77,7 @@ macro_wrap!(match x {
 })
 ```
 
-## Features
+### Features
 
 The `nightly` feature (disabled by default) enables functionality that uses the
 unstable [`proc_macro_span`] rustc feature. It enables better syntax checking
@@ -92,7 +94,9 @@ dry = { version = "0.1.0", features = ["nightly"] }
 
 [`proc_macro_span`]: https://github.com/rust-lang/rust/issues/54725
 
-## Dependencies
+## About This Crate
+
+### Dependencies
 
 The only dependency is [`proc-macro-error`], for those sweet, sweet, friendly
 error messages across Rust versions. In turn, it depends on [`quote`] and
@@ -104,17 +108,60 @@ really light on compile times.
 [`syn`]: https://docs.rs/syn
 [`proc-macro2`]: https://docs.rs/proc-macro2
 
-## Caution
+### Caution
 
 You should try to use an abstraction like looping, traits, or generics if at
 all possible. But when it's not, `dry` makes it as painless and pleasant as
 possible to avoid repeating yourself.
 
-## Prior Art
+### Prior Art
 
-TODO
+#### For Each Loops
 
-## Roadmap
+- [`duplicate`](https://crates.io/crates/duplicate): The most popular by far
+  and works more or less like a regular `for` loop with tuple destructuring,
+  except for the very foreign syntax. It offers an attribute syntax which
+  avoids some nesting, but at the cost of clarity, in my opinion. The
+  function-like syntax can be used wherever the attribute sytnax is valid, plus
+  "$"-prefixed identifiers are invalid Rust and therefore not possible to
+  implement in an attribute syntax.
+- [`akin`](https://crates.io/crates/akin): Overloads the `let` syntax with an
+  implicit [for
+  comprehension](https://docs.scala-lang.org/tour/for-comprehensions.html).
+  Avoids nesting for large numbers of substitution variables but feels too
+  magical to feel at home in most Rust codebases, in my opinion.
+- [`ct-for`](https://crates.io/crates/ct-for): Almost there! However it uses
+  `in ... do` syntax instead of the more familiar `in ... {}` syntax Rustaceans
+  are used to. This also makes it more difficult for editors to correctly
+  indent the loop body. Finally, the `ct` in `ct_for` is not very descriptive.
+
+All of them use bare identifiers instead of "$"-prefixed identifiers like `dry`
+and `macro_rules!` do, which make it clear when macros are being used versus
+standard language features within the loop body. None of them support
+replicating struct fields, enum cases, or match arms as far as I'm aware.
+
+#### N Repetitions
+
+- [`repeated`](https://crates.io/crates/repeated): Not quite the same thing,
+  but alerted the author to the macro invocation position (e.g. match arms,
+  etc.) problem and one way to solve it. In fact, a `match` with many arms for
+  an enum in an external crate without generic traits is what spurred initial
+  development of `dry`!
+- [`seq_macro`](https://crates.io/crates/seq_macro): Inspired the syntax used
+  in `macro_for!`. Great if you want to iterate over a range of numeric or
+  character values instead of a list of tokens.
+
+## License
+
+`dry` is licensed under the [MIT License](LICENSE-MIT) and the [Apache 2.0 License](LICENSE-APACHE), at your option.
+
+Unless you explicitly state otherwise, any contribution intentionally submitted for inclusion in the work by you, as defined in the Apache-2.0 license, shall be dual licensed as above, without any additional terms or conditions.
+
+## Contributing
+
+Please [open a pull request](https://github.com/coldriverstudio/dry-rs/pulls/new) if you'd like to see anything fixed or added, or [create an issue](https://github.com/coldriverstudio/dry-rs/issues/new) if you're not sure how to get started.
+
+## Roadmap to 1.0
 
 - [x] Idiomatic `for`-like syntax.
 - [x] Helpful compiler error messages and hints, modelled after rustc's errors
@@ -142,3 +189,4 @@ TODO
 - [ ] Can `macro_wrap` expand macros outside of this crate, too? Probably not,
       but let's investigate. Maybe we can let other macro crates plug into it
       if we can't do it automatically.
+- [ ] How to deal with substitutions with repeated items of groups? `duplicate` solves this with what they call [parametrized substitution](https://docs.rs/duplicate/latest/duplicate/#parameterized-substitution)
