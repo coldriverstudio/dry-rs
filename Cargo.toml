@@ -7,7 +7,7 @@ description = "Rust macros for idiomatic deduplication of code. Use whenever `ma
 readme = "README.md"
 repository = "https://github.com/coldriverstudio/dry-rs"
 license = "MIT OR Apache-2.0"
-keywords = ["macro", "for", "for_each", "repeat"]
+keywords = ["macro", "for", "for_each", "repeat", "substitute"]
 categories = ["development-tools"]
 exclude = ["ideas/*"]
 
